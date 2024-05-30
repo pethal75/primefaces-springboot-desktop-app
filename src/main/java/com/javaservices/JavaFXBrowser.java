@@ -27,7 +27,7 @@ public class JavaFXBrowser extends Application {
 
 	@Override
 	public void stop() {
-		System.exit(3);
+		System.exit(0);
 	}
 }
 
