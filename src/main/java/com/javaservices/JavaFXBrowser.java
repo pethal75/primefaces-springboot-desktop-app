@@ -3,10 +3,7 @@ package com.javaservices;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
@@ -14,27 +11,30 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class JavaFXBrowser extends Application {
-	private Scene scene;
 
-	@Override
+    @Override
 	public void start(Stage stage) {
 		// create the scene
 		stage.setTitle("Web View");
-		scene = new Scene(new Browser(), 750, 500, Color.web("#666970"));
+        Scene scene = new Scene(new Browser(), 750, 500, Color.web("#666970"));
 		stage.setScene(scene);
-		//scene.getStylesheets().add("webviewsample/BrowserToolbar.css");
 		stage.show();
 	}
 
 	public static void openBrowser() {
 		launch();
 	}
+
+	@Override
+	public void stop() {
+		System.exit(3);
+	}
 }
 
 class Browser extends Region {
 
-	final WebView browser = new WebView();
-	final WebEngine webEngine = browser.getEngine();
+	final WebView webView = new WebView();
+	final WebEngine webEngine = webView.getEngine();
 
 	public Browser() {
 		// apply the styles
@@ -42,21 +42,15 @@ class Browser extends Region {
 		// load the web page
 		webEngine.load("http://localhost:8080/index.xhtml");
 		// add the web view to the scene
-		getChildren().add(browser);
+		getChildren().add(webView);
 
-	}
-
-	private Node createSpacer() {
-		Region spacer = new Region();
-		HBox.setHgrow(spacer, Priority.ALWAYS);
-		return spacer;
 	}
 
 	@Override
 	protected void layoutChildren() {
 		double w = getWidth();
 		double h = getHeight();
-		layoutInArea(browser, 0, 0, w, h, 0, HPos.CENTER, VPos.CENTER);
+		layoutInArea(webView, 0, 0, w, h, 0, HPos.CENTER, VPos.CENTER);
 	}
 
 	@Override
